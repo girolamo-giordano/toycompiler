@@ -1,0 +1,191 @@
+import Expressions.*;
+import java.io.*;
+import java_cup.runtime.*;
+
+
+
+
+terminal SEMI,COMMA,ASSIGN,LPAR,RPAR,COLON,CORP,IF,THEN,FI,ELIF,ELSE,WHILE,DO,OD,READ,WRITE,NULL
+,PLUS,MINUS,TIMES,DIV,AND,OR,GT,GE,LT,LE,EQ,NE,NOT,RETURN,PROC;
+terminal String ID,STRING_CONST,INT,STRING,BOOL,VOID,FLOAT;
+terminal Integer INT_CONST;
+terminal Float FLOAT_CONST;
+terminal Boolean TRUE,FALSE;
+
+nonterminal Program Program;
+nonterminal VarDeclList VarDeclList;
+nonterminal ProcList ProcList;
+nonterminal VarDecl VarDecl;
+nonterminal IdListInit IdListInit;
+nonterminal Proc Proc;
+nonterminal ResultTypeList ResultTypeList;
+nonterminal Expr Expr;
+nonterminal ExprList ExprList;
+nonterminal CallProc CallProc;
+nonterminal IdList IdList;
+nonterminal StatList StatList;
+nonterminal WhileStat WhileStat;
+nonterminal Elif Elif;
+nonterminal Else Else;
+nonterminal ElifList ElifList;
+nonterminal Stat Stat;
+nonterminal IfStat IfStat;
+nonterminal ReadlnStat ReadlnStat;
+nonterminal WriteStat WriteStat;
+nonterminal AssignStat AssignStat;
+nonterminal ResultType ResultType;
+nonterminal Type Type;
+nonterminal ReturnExprs ReturnExprs;
+nonterminal ParamDeclList ParamDeclList;
+nonterminal ParDecl ParDecl;
+// The value associated to a ParserTest and a Series block is the resistance; for
+// a Parallel block it is the conductance.
+// Now the grammar itself
+
+
+precedence left NOT;
+precedence left OR;
+precedence left AND;
+precedence left EQ,NE;
+precedence nonassoc LT,LE,GT,GE;
+precedence left PLUS, MINUS;
+precedence left TIMES, DIV;
+
+
+
+Program ::= VarDeclList:v ProcList:p {:RESULT= new Program(vxleft,vxright,v,p);:}
+           ;
+
+VarDeclList ::=  {:RESULT= new VarDeclList();:}
+	| VarDecl:v VarDeclList:vd {: vd.add(v); RESULT=vd;:}
+	;
+
+ProcList ::= Proc: p {:RESULT = new ProcList(pxleft,pxright,p);:}
+	| Proc:p ProcList:pl {: pl.add(p); RESULT= pl;:}
+	;
+
+VarDecl ::= Type:t IdListInit:idl SEMI {:RESULT= new VarDecl(txleft,txright,t,idl);:}
+        ;
+
+
+Type ::= INT:i {:RESULT=new TypeInt(ixleft,ixright,i);:}
+        | BOOL:i  {:RESULT=new TypeBool(ixleft,ixright,i);:}
+        | FLOAT:i  {:RESULT= new TypeFloat(ixleft,ixright,i);:}
+        | STRING:i {:RESULT=new TypeString(ixleft,ixright,i);:}
+        ;
+
+IdListInit ::= ID:id {:RESULT= new IdListInit(idxleft,idxright,id);:}
+	| IdListInit:idl COMMA ID:id {: idl.add(id,null); RESULT= idl;:}
+	| ID:id ASSIGN Expr:e {:RESULT= new IdListInit(idxleft,idxright,id,e);:}
+	| IdListInit:idl COMMA ID:id ASSIGN Expr:e {:idl.insert(id,e); RESULT= idl;:}
+	;
+
+Proc ::= PROC:pr ID:id LPAR ParamDeclList:pl RPAR ResultTypeList:r COLON VarDeclList:v StatList:s RETURN ReturnExprs:re CORP SEMI {:RESULT= new Proc (prxleft,prxright,id,pl,r,v,s,re);:}
+	| PROC:pr ID:id LPAR RPAR ResultTypeList:r COLON VarDeclList:v StatList:s RETURN ReturnExprs:re CORP SEMI {:RESULT= new Proc(prxleft,prxright,id,null,r,v,s,re);:}
+	|PROC:pr ID:id LPAR ParamDeclList:p RPAR ResultTypeList:r COLON VarDeclList:v  RETURN ReturnExprs:re CORP SEMI {:RESULT= new Proc(prxleft,prxright,id,p,r,v,null,re);:}
+    | PROC:pr ID:id LPAR RPAR ResultTypeList:r COLON VarDeclList:v RETURN ReturnExprs:re CORP SEMI {:RESULT= new Proc(prxleft,prxright,id,null,r,v,null,re);:}
+    ;
+
+
+ResultTypeList ::= ResultType:r {:RESULT= new ResultTypeList(rxleft, rxright,r);:}
+	| ResultType:r COMMA ResultTypeList:rl {:rl.add(r); RESULT=rl ;:}
+	;
+
+ReturnExprs::=  ExprList:e {:RESULT=new ReturnExprs(exleft,exright,e);:}
+	|  {:RESULT=new ReturnExprs();:}
+	;
+
+ExprList ::= Expr:e {:RESULT= new ExprList(exleft,exright,e);:}
+	| Expr:e COMMA ExprList:elist {:elist.add(e);RESULT= elist;:}
+	;
+
+ParamDeclList ::= ParDecl:p {:RESULT= new ParamDeclList(pxleft,pxright,p);:}
+                | ParamDeclList:pdl SEMI ParDecl:p {:pdl.add(p);RESULT=pdl;:}
+                ;
+
+
+ParDecl ::= Type:t IdList:il {:RESULT=new ParDecl(txleft,txright,t,il);:}
+            ;
+
+
+IdList ::= ID:i {:RESULT= new IdList(ixleft,ixright,i);:}
+           | IdList:il COMMA ID:i {:il.add(i);RESULT=il;:}
+           ;
+
+
+ResultType ::= Type:t {:RESULT= new ResultType(txleft,txright,t);:}
+            | VOID:v {:RESULT=new ResultType(vxleft,vxright);:}
+            ;
+
+
+StatList ::= Stat:s {:RESULT= new StatList(sxleft,sxright,s);:}
+            | Stat:s StatList:ss {:ss.add(s);RESULT=ss;:}
+            ;
+
+Stat ::= IfStat:s SEMI {:RESULT=new StatIf(sxleft,sxright,s);:}
+	| WhileStat:s SEMI {:RESULT=new StatWhile(sxleft,sxright,s);:}
+	| ReadlnStat:s SEMI {:RESULT=new StatReadln(sxleft,sxright,s);:}
+	| WriteStat:s SEMI {:RESULT=new StatWrite(sxleft,sxright,s);:}
+	| AssignStat:s SEMI {:RESULT=new StatAssign(sxleft,sxright,s);:}
+	| CallProc:s SEMI {:RESULT=new StatCallProc(sxleft,sxright,s);:}
+	;
+
+
+IfStat ::= IF Expr:e THEN StatList:sl ElifList:el Else:els FI {:RESULT=new IfStat(exleft,exright,e,sl,el,els);:}
+        ;
+
+ElifList ::=  {:RESULT=new ElifList();:}
+	| Elif:e ElifList:el {:el.add(e);RESULT=el;:}
+    ;
+
+Elif ::= ELIF Expr:e THEN StatList:sl {:RESULT=new Elif(exleft,exright,e,sl);:}
+        ;
+
+Else ::=  {:RESULT=new Else();:}
+    |ELSE StatList:s {:RESULT= new Else(sxleft,sxright,s);:}
+    ;
+
+WhileStat ::= WHILE StatList:sl RETURN Expr:e DO StatList:sl2 OD {:RESULT= new WhileStat(slxleft,slxright,sl,e,sl2);:}
+	| WHILE Expr:e DO StatList:sl OD {:RESULT= new WhileStat(exleft,exright,null,e,sl);:}
+    ;
+
+ReadlnStat ::= READ LPAR IdList:il RPAR {:RESULT= new ReadlnStat(ilxleft,ilxright,il);:}
+            ;
+
+WriteStat ::=  WRITE LPAR ExprList:el RPAR {:RESULT= new WriteStat(elxleft,elxright,el);:}
+            ;
+
+AssignStat ::= IdList:il ASSIGN  ExprList:el {:RESULT= new AssignStat(ilxleft,ilxright,il,el);:} ;
+
+
+CallProc ::= ID:i LPAR ExprList:el RPAR {:RESULT= new CallProc(ixleft,ixright,i,el);:}
+	| ID:i LPAR RPAR {:RESULT= new CallProc(ixleft,ixright,i,null);:};
+
+
+Expr ::= NULL:n {:RESULT=new ExprNull(nxleft,nxright);:}
+	| TRUE:t {:RESULT=new ExprTrue(txleft,txright);:}
+	| FALSE: f {: RESULT= new ExprFalse(fxleft,fxright);:}
+	| INT_CONST: ic {:RESULT= new ExprIntConst(icxleft,icxright,ic);:}
+	| FLOAT_CONST:fc {:RESULT= new ExprFloatConst(fcxleft,fcxright,fc);:}
+	| STRING_CONST: sc {: RESULT= new ExprStringConst (scxleft,scxright,sc);:}
+	| ID: id {:RESULT= new ExprId (idxleft,idxright,id);:}
+    | CallProc:c {:RESULT= new ExprCall(cxleft,cxright,c);:}
+	| Expr:e PLUS Expr:t {:RESULT=new ExprPlus(exleft,exright,e,t);:}
+	| Expr:e  MINUS Expr:t {:RESULT=new ExprMinus(exleft,exright,e,t);:}
+	| Expr:e  TIMES Expr:t {:RESULT=new ExprTimes(exleft,exright,e,t);:}
+	| Expr:e  DIV Expr:t {:RESULT=new ExprDiv(exleft,exright,e,t);:}
+	| Expr:e  AND Expr:t {:RESULT=new ExprAnd(exleft,exright,e,t);:}
+	| Expr:e  OR Expr:t  {:RESULT=new ExprOr(exleft,exright,e,t);:}
+	| Expr:e  GT Expr:t {:RESULT=new ExprGt(exleft,exright,e,t);:}
+	| Expr:e  GE Expr:t {:RESULT=new ExprGe(exleft,exright,e,t);:}
+	| Expr:e  LT Expr:t {:RESULT=new ExprLt(exleft,exright,e,t);:}
+	| Expr:e  LE Expr:t {:RESULT=new ExprLe(exleft,exright,e,t);:}
+	| Expr:e  EQ Expr:t {:RESULT=new ExprEq(exleft,exright,e,t);:}
+	| Expr:e  NE Expr:t {:RESULT=new ExprNe(exleft,exright,e,t);:}
+	| MINUS:e Expr:t {:RESULT=new ExprMinusUn(exleft,exright,t);:}
+	| NOT:e Expr:t {:RESULT=new ExprNot(exleft,exright,t);:}
+	;
+
+
+
+
