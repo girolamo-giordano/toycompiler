@@ -1,0 +1,31 @@
+/*
+    Procedure scope and if condition with procedure call
+*/
+
+proc main2(int x) int:
+    ->1
+corp;
+
+proc main3(float x) int:
+    -> main2(2)
+corp;
+
+proc condition(bool x) bool:
+    -> !x
+corp;
+
+proc main() void:
+    bool conditions := false;
+    int val;
+    string str := "";
+
+    if condition(condition(!conditions)) <> condition(!conditions) then
+        val := main2(1); /* Call main(int) -> int procedure */
+    elif condition(condition(!conditions)) = condition(!conditions) then /* Procedure which return a bool in elif condition */
+        val := main3(1.0);   /* Call main(float) -> int procedure */
+    else
+        str := "You are here \\n";
+    fi;
+    write(val);
+    ->
+corp;

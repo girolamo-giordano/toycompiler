@@ -1,0 +1,32 @@
+/*
+    Average
+*/
+float sum := 0.0;
+int n := 0;
+
+
+proc g(int i,j) int,int:
+->3,2
+corp;
+
+proc f() int,int:
+->10,23
+corp;
+
+proc main() void:
+    float number;
+    write("Insert a number (-1 to exit): ");
+            readln(number);
+    while
+        number >= 0
+    do
+        n := n + 1;
+        sum := sum + number;
+        number := number - 1;
+    od;
+
+    if n <> 0 then
+        write("Average: ", sum / n, "\n",false=true, 3<4," ",g(f()) + g(f()));
+    fi;
+    ->
+corp;

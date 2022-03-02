@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Program>
+    <VarDeclList>
+        <VarDecl>
+            <TypeString>
+                <IdListInit>
+                    <IdInit>(ID,str)</IdInit>
+                </IdListInit>
+            </TypeString>
+        </VarDecl>
+    </VarDeclList>
+    <ProcList>
+        <Proc>
+            (ID,main)
+            <ResultTypeList>
+                <ResultType>
+                    <Type/>
+                </ResultType>
+            </ResultTypeList>
+            <ProcBody>
+                <VarDeclList/>
+                <StatList>
+                    <StatWrite>
+                        <WriteStat>
+                            <ExprList>
+                                <ExprStringConst>Say something!
+</ExprStringConst>
+                            </ExprList>
+                        </WriteStat>
+                    </StatWrite>
+                    <StatReadln>
+                        <ReadlnStat>
+                            <IdList>(ID,str)</IdList>
+                        </ReadlnStat>
+                    </StatReadln>
+                    <StatWhile>
+                        <WhileStat>
+                            <ExprNe>
+                                <ExprId>str</ExprId>
+                                <ExprStringConst>something</ExprStringConst>
+                            </ExprNe>
+                            <WhileBody>
+                                <StatList>
+                                    <StatWrite>
+                                        <WriteStat>
+                                            <ExprList>
+                                                <ExprId>str</ExprId>
+                                                <ExprStringConst>
+</ExprStringConst>
+                                            </ExprList>
+                                        </WriteStat>
+                                    </StatWrite>
+                                </StatList>
+                            </WhileBody>
+                        </WhileStat>
+                    </StatWhile>
+                </StatList>
+                <ReturnExprs/>
+            </ProcBody>
+        </Proc>
+    </ProcList>
+</Program>

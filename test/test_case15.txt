@@ -1,0 +1,74 @@
+/* Is a prime number*/
+
+proc mod(int x, mod) int:
+    int quoziente := x/mod;
+   -> x - mod * quoziente
+corp;
+
+proc power(int base, exponent) int:
+     int result, mod1;
+
+     if exponent = 0 then
+       result := 1;
+     elif exponent = 1 then
+       result := base;
+     else
+       mod1 := mod(exponent, 2);
+       if mod1 = 0 then
+         result := power(base * base, exponent/2);
+       else
+         result := base * power(base * base, exponent/2);
+       fi;
+     fi;
+
+     -> result
+corp;
+
+proc isPrimeFermat(int n) bool:
+    bool isPrime;
+    if n = 2 || n = 3 then
+        isPrime := true;
+    else
+        isPrime := mod(power(2, n), n) = 2 && mod(power(3, n), n) = 3 && mod(power(4, n), n) = 4;
+    fi;
+    -> isPrime
+corp;
+
+proc isPrime2(int n) bool:
+    int i := 2;
+    bool found := false;
+    if n = 2 || n = 3 then
+     write("ciao")   ;
+    else
+        while
+            i <= n/2 && !found
+        do
+            if mod(n,i) = 0 then
+                found := true;
+            fi;
+            i := i + 1;
+        od;
+    fi;
+
+   -> !found
+corp;
+
+proc main() void:
+    int n;
+    string str;
+    write("Inserisci un numero positivo (> 1) per controllare se e' primo (0 per chiudere): ");
+            readln(n);
+    while
+
+        n > 1
+    do
+        if isPrime2(n) then
+            write(n, " è un numero primo\n");
+        else
+            write(n, " non è un numero primo\n");
+        fi;
+
+
+    od;
+->
+corp;

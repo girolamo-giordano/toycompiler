@@ -1,0 +1,154 @@
+int n:=0;
+int scelta:=0;
+float a,b:=0.0;
+float c:=0.0;
+int d:=0;
+
+proc somma (float a,b) float:
+float result:=0.0;
+result:= a+b;
+->result
+corp;
+
+proc moltiplicazione (float a,b) float:
+float result := 0.0;
+    int i := 0;
+
+    while i < b do
+        result := a + result;
+        i := i + 1;
+    od;
+
+->result
+corp;
+
+proc divisione (float a,b) float:
+float result:=0.0;
+result:= a/b;
+->result
+corp;
+
+proc potenza (float a,b) float:
+float result:=0.0;
+  if b = 1 then
+    result := a;
+  else
+    result := a * potenza(a, b - 1);
+  fi;
+  ->result
+corp;
+
+proc fib(int x) void:
+                   int i := 0;
+                   int fib1 := 1, fib2 := 0;
+                   int temp;
+
+                   while i <= x do
+                       if i = 0 then
+                           write(0, " ");
+                       else
+                           temp := fib1 + fib2;
+                           fib2 := fib1;
+                           fib1 := temp;
+                           write(fib1, " ");
+                       fi;
+
+                       i := i + 1;
+                   od;
+                   ->
+               corp;
+
+
+
+
+
+
+
+
+proc operazioni(int n) void:
+float result:=0.0;
+float c:=0.0;
+
+if n=1 then
+write("Inserisci il primo numero: ");
+readln(a);
+write("Inserisci il secondo numero: ");
+readln(b);
+write("Il risultato è: " , somma(a,b));
+
+elif n=2 then
+write("Inserisci il primo numero: ");
+readln(a);
+write("Inserisci il secondo numero: ");
+readln(b);
+
+
+write("Il risultato è: " , moltiplicazione(a,b));
+
+elif n=3 then
+write("Inserisci il primo numero: ");
+readln(a);
+write("Inserisci il secondo numero: ");
+readln(b);
+write("Il risultato è: " , divisione(a,b));
+
+elif n=4 then
+write("Inserisci il primo numero: ");
+readln(a);
+write("Inserisci il secondo numero: ");
+readln(b);
+write("Il risultato è: " , potenza(a,b));
+
+elif n=5 then
+write("Inserisci quanti numeri vuoi visualizzare");
+readln(d);
+fib(d);
+
+fi;
+
+
+write("Inserisci 0 se vuoi terminare oppure 1 se vuoi ritornare al menù");
+	readln(scelta);
+	if scelta=0 then
+		write("Arrivederci");
+	elif scelta=1 then
+		visualizzaMenu();
+	fi;
+	->
+corp;
+
+
+
+
+
+
+
+proc visualizzaMenu() void:
+while n<6
+do
+write("Inserisci: \n");
+write("1 per la somma \n");
+write("2 per la moltiplicazione di una somma \n");
+write("3 per la divisione \n ");
+write("4 per la potenza \n");
+write("5 per la successione di fibonacci \n");
+readln(n);
+operazioni(n);
+od;
+->
+corp;
+
+proc main() void:
+visualizzaMenu();
+->
+corp;
+
+
+
+
+
+
+
+
+
+

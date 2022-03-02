@@ -1,0 +1,15 @@
+/*
+    Unclosed string literal
+*/
+
+string str;
+
+proc main() void:
+    bool a;
+    bool b;
+    float c := -1 ;
+    str := "Ciao" ;
+    write(str);
+    ->
+corp;
+

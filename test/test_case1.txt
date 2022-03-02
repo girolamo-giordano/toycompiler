@@ -1,0 +1,101 @@
+int number,alsd := 0;
+float albero:= 1.1;
+int akki;
+
+
+proc visualizzaMenu() void:
+	int n;
+	write(" Insert 1 for plus, 2 for minus, 3 for times and 4 for div");
+	readln (n);
+	operazioni(n);
+	->
+corp;
+
+proc somma (float n;int m) float,int:
+	float result:=0.0;
+	int k :=0;
+	result:= n+m;
+	->result,3
+corp;
+
+proc nulla2(int n) int,string:
+->3,"cipoa"
+corp;
+
+
+
+proc operazioni(int n) float:
+int m:=0;
+float result:=0.0;
+float cifra:=0.0;
+float scelta:=0.0;
+int c:=1;
+m,c:=0,1;
+
+while
+	write("Inserisci il numero");
+	readln(cifra);
+	nulla(somma(moltiplicazione(2.0,0.0),1));
+	->m=0
+		do
+			if n=1 then
+				result,m,c:=somma(somma(somma(somma(1.0,1)))),1+2;
+			elif n=2 then
+				result,scelta:=sottrazione(result);
+
+			elif n=3 then
+				result:= moltiplicazione(result,cifra);
+
+			elif n=4 then
+				result:= divisione(result,cifra);
+
+			fi;
+			write("Vuoi continuare? 0-SI / 1-NO");
+			readln(m,n);
+		od;
+	write("Il risultato è: ",result,"Inserisci 0 se vuoi terminare oppure 1 se vuoi ritornare al menù");
+	readln(scelta);
+	if scelta=0 then
+		write("Arrivederci");
+	elif scelta=1 then
+		visualizzaMenu();
+	fi;
+	->result
+corp;
+
+proc sottrazione (float n) float,float:
+	float result:=0.0;
+	float asijfj:=0.0;
+	result:= n;
+	->result,asijfj
+corp;
+
+proc moltiplicazione (float n,m) float:
+	float result:=0.0;
+	result:= n*m;
+	->1
+corp;
+
+proc divisione (float n, m) float:
+	float result:=0.0;
+	result:= n/m;
+	->result
+corp;
+
+proc nulla(float i; int m) void:
+    ->
+corp;
+
+
+
+
+proc main() void:
+	visualizzaMenu();
+	->
+corp;
+
+
+
+
+
+

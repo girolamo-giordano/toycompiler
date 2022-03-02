@@ -1,0 +1,47 @@
+/*
+    Elif test
+*/
+
+int x := 0;
+string y := "";
+
+
+
+proc g() int, int:
+    int x := 1;
+    ->x, x + 1
+corp;
+
+proc h(int a, b) int:
+    ->1
+corp;
+
+proc f(int x; float y; string z) int, int:
+    write("Sono la funzione f", "\n");
+    -> g()
+corp;
+
+proc main() void:
+    string a := "null", b := "null";
+    string aa := "null";
+    int i;
+    int fa;
+    float hik,pol;
+    hik,pol := 1,2;
+    i, fa := 1, 2; /* multiple assignment */
+
+    write(hik," ",pol);
+    if a = null then
+        write("ciao") /* nothing */ ;
+    elif h(g()) = 1 then
+            if h(g()) - h(f(i, fa, a)) = 0 then
+                fa, i := g();
+            write("Valori della funzione g: " , fa , " " , i ,"\n");
+        fi;
+    elif a <> null then
+        write(g());
+    else
+       write("ciao") /* nothing */;
+    fi;
+->
+corp;

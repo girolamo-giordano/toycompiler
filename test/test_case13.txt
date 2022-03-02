@@ -1,0 +1,13 @@
+string str;
+
+proc main() void:
+write("Say something!\n");
+readln(str);
+    while
+
+        str <> "something"
+    do
+        write(str, "\n");
+    od;
+    ->
+corp;

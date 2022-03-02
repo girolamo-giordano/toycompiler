@@ -1,0 +1,12 @@
+/*
+    Unclosed string literal
+
+
+string str;
+
+proc main() void:
+    str := "Ciao ;
+    write(str);
+    ->
+corp;
+

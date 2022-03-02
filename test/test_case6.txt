@@ -1,0 +1,16 @@
+/*
+    Ambiguous procedure call
+*/
+
+proc f(int x; float y) float, float:
+    ->x, x + y
+corp;
+
+proc f(float x; int y) int, int:
+    -> y, y * 2
+corp;
+
+proc main() void:
+    f(1, 1); /* f(int, float) can't include f(float, int) and viceversa, so we don't have enough information to decide with procedure call */
+    ->
+corp;

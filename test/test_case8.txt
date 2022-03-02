@@ -1,0 +1,26 @@
+/*
+    Interaction with null and void
+*/
+
+proc f(int x) void:
+->
+corp;
+
+proc g() string:
+    -> "world"
+corp;
+
+proc h() string:
+    -> "hello"
+corp;
+
+proc main() void:
+    int l,k,z := 1;
+    string a := "null", b := "null";
+    string spaces := " ";
+    spaces := spaces;
+     l,k,z := 1,3,2;
+    a,b := h(), g();
+    write(a, spaces, b, f(1));
+    ->
+corp;
