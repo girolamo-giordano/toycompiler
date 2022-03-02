@@ -1,0 +1,28 @@
+semanticVisitor
+Linea 37
+linea 277
+linea 331
+
+
+
+
+
+
+---------------------------------------------
+
+clang -pthread -lm -o prog hello.c
+Clang hello.c -o hello.exe
+
+JFLEX
+C:\JFLEX\bin\jflex -d src srcjflexcup\circuit.flex
+
+
+CUP
+java -jar C:\CUP\java-cup-11b.jar -locations -interface -parser Parser -destdir src srcjflexcup/circuit.cup
+
+locations -> per generare xleft,xright per accedere alla locazione degli oggetti
+interface -> per generare la sym come interfaccia e non come classe
+parser -> per dare il nome della classe che andrà a formare il Parser
+
+scup
+scup -dump 2> dump.txt
